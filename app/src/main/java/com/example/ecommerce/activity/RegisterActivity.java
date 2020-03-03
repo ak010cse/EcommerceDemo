@@ -1,4 +1,4 @@
-package com.example.ecommerce;
+package com.example.ecommerce.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -7,6 +7,9 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.FrameLayout;
+
+import com.example.ecommerce.R;
+import com.example.ecommerce.fragment.SignInFragment;
 
 public class RegisterActivity extends AppCompatActivity {
     private FrameLayout frameLayout;

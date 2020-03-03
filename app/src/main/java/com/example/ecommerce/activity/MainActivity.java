@@ -1,12 +1,10 @@
-package com.example.ecommerce;
+package com.example.ecommerce.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import android.view.View;
+import com.example.ecommerce.R;
+import com.example.ecommerce.fragment.HomeFragment;
 
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -20,14 +18,18 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.Menu;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth firebaseAuth;
+    private FrameLayout main_frameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,15 +38,15 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        firebaseAuth=FirebaseAuth.getInstance();
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        firebaseAuth = FirebaseAuth.getInstance();
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -52,6 +54,12 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(0).setChecked(true);
+
+        main_frameLayout=(FrameLayout)findViewById(R.id.main_frameLayout);
+        setFragment(new HomeFragment());
+
+
     }
 
     @Override
@@ -77,10 +85,10 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_search) {
             Toast.makeText(this, "you clicked on search bar", Toast.LENGTH_SHORT).show();
             return true;
-        }else if (id==R.id.action_cart){
+        } else if (id == R.id.action_cart) {
             Toast.makeText(this, "you clicked on Add to cart", Toast.LENGTH_SHORT).show();
             return true;
-        }else if (id == R.id.action_notification){
+        } else if (id == R.id.action_notification) {
             Toast.makeText(this, "you clicked on notification", Toast.LENGTH_SHORT).show();
             return true;
         }
@@ -93,8 +101,9 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_my_order) {
+        if (id == R.id.nav_my_home) {
+            Toast.makeText(this, "you clicked on Home", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_my_order) {
             Toast.makeText(this, "you clicked on My Orders", Toast.LENGTH_SHORT).show();
             // Handle the camera action
         } else if (id == R.id.nav_my_rewards) {
@@ -103,9 +112,9 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this, "you clicked on My Cart", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_my_wishlist) {
             Toast.makeText(this, "you clicked on My Wishlist", Toast.LENGTH_SHORT).show();
-        }else if (id == R.id.nav_my_account) {
+        } else if (id == R.id.nav_my_account) {
             Toast.makeText(this, "you clicked on My Account", Toast.LENGTH_SHORT).show();
-        }else if (id == R.id.nav_signOut) {
+        } else if (id == R.id.nav_signOut) {
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//makesure user cant go back
@@ -115,6 +124,14 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void setFragment(Fragment fragment){
+
+        FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
+        transaction.replace(main_frameLayout.getId(),fragment);
+        transaction.commit();
+
     }
 
 
