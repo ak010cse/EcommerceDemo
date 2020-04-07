@@ -11,6 +11,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 
 import android.view.MenuItem;
 
+import com.example.ecommerce.fragment.MyCartFragment;
+import com.example.ecommerce.fragment.OrderFragment;
+import com.example.ecommerce.fragment.RewardFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -103,12 +106,19 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.nav_my_home) {
             Toast.makeText(this, "you clicked on Home", Toast.LENGTH_SHORT).show();
+            setFragment(new HomeFragment());
         } else if (id == R.id.nav_my_order) {
             Toast.makeText(this, "you clicked on My Orders", Toast.LENGTH_SHORT).show();
             // Handle the camera action
+            setFragment(new OrderFragment());
+
         } else if (id == R.id.nav_my_rewards) {
             Toast.makeText(this, "you clicked on My Rewards", Toast.LENGTH_SHORT).show();
+            setFragment(new RewardFragment());
         } else if (id == R.id.nav_my_cart) {
+
+            setFragment(new MyCartFragment());
+
             Toast.makeText(this, "you clicked on My Cart", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_my_wishlist) {
             Toast.makeText(this, "you clicked on My Wishlist", Toast.LENGTH_SHORT).show();

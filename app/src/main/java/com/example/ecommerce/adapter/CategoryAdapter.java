@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,13 +59,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
         private TextView categoryName;
         private ImageView categoryIcon;
-        ConstraintLayout constraintLayout;
+        LinearLayout constraintLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             categoryName = (TextView) itemView.findViewById(R.id.category_name);
             categoryIcon = (ImageView) itemView.findViewById(R.id.category_icon);
-            constraintLayout = (ConstraintLayout) itemView.findViewById(R.id.constraintsLayout);
+            constraintLayout = (LinearLayout) itemView.findViewById(R.id.constraintsLayout);
         }
     }
 }
