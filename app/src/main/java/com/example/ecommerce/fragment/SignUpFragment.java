@@ -85,7 +85,7 @@ public class SignUpFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        email.addTextChangedListener(new TextWatcher() {
+        name.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -102,7 +102,8 @@ public class SignUpFragment extends Fragment {
 
             }
         });
-        name.addTextChangedListener(new TextWatcher() {
+
+        email.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -137,6 +138,7 @@ public class SignUpFragment extends Fragment {
 
             }
         });
+
         confirm_password.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -154,6 +156,7 @@ public class SignUpFragment extends Fragment {
 
             }
         });
+
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,9 +175,9 @@ public class SignUpFragment extends Fragment {
 
     @SuppressLint("ResourceAsColor")
     private void checkInputs() {
-        if (!TextUtils.isEmpty(email.getText().toString())) {
+        if (!TextUtils.isEmpty(name.getText().toString())) {
 
-            if (!TextUtils.isEmpty(name.getText().toString())) {
+            if (!TextUtils.isEmpty(email.getText().toString())) {
 
                 if (!TextUtils.isEmpty(password.getText().toString()) && password.length() >= 6) {
 

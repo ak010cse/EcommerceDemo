@@ -25,12 +25,13 @@
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp"
         android:gravity="center"
-        android:text="Home Appliances"
+        android:text="@string/home_appliances"
         android:textAlignment="center"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.457"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.022" />
+        app:layout_constraintVertical_bias="0.022"
+        tools:ignore="SmallSp" />
 </LinearLayout>

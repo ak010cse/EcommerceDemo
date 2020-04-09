@@ -12,14 +12,15 @@
         android:layout_margin="10dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="10dp"
+        tools:ignore="UselessParent">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center_horizontal"
-            android:text="SIGN IN" />
+            android:text="@string/sign_in" />
 
         <View
             android:layout_width="match_parent"
@@ -30,19 +31,21 @@
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="email"
+            android:hint="@string/email"
             android:layout_marginTop="10dp"
             android:inputType="textEmailAddress"
-            android:singleLine="true" />
+            android:singleLine="true"
+            tools:ignore="Autofill" />
 
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="password"
+            android:hint="@string/password"
             android:layout_marginTop="10dp"
             android:inputType="textPassword"
-            android:singleLine="true" />
+            android:singleLine="true"
+            tools:ignore="Autofill" />
 
         <TextView
             android:id="@+id/forget_password"
@@ -50,8 +53,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
-            android:text="Forget password ?"
-            android:textSize="15sp" />
+            android:text="@string/forget_password"
+            android:textSize="15sp"
+            tools:ignore="RtlHardcoded" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -65,9 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_marginTop="70dp"
-            android:textColor="#f2f2f2"
-            android:enabled="true"
-            android:text="SignIn" />
+            android:text="@string/signin" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -87,7 +89,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="OR"
+                android:text="@string/or"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:textColor="#000000"/>
@@ -107,7 +109,7 @@
             android:layout_marginTop="10dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Don't have an account?Sign up"
+            android:text="@string/don_t_have_an_account_sign_up"
             android:textColor="#000000" />
     </LinearLayout>
 

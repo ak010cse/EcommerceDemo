@@ -31,4 +31,24 @@
     <string name="hello_reward_fragment">Hello Reward Fragment</string>
     <string name="deals_of_the_day">Deals of the day!</string>
     <string name="view_all">view all</string>
+    <string name="signin">SignIn</string>
+    <string name="forget_password">Forget password ?</string>
+    <string name="password">password</string>
+    <string name="email">email</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="or">OR</string>
+    <string name="don_t_have_an_account_sign_up">Don\'t have an account?Sign up</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="full_name">Full name</string>
+    <string name="confirm_password">confirm password</string>
+    <string name="already_have_an_account_sign_in">Already have an account?Sign in</string>
+    <string name="text_view">Text View</string>
+    <string name="splash_screen">SPLASH SCREEN</string>
+    <string name="this_is_demo_ecommerce_app">This is Demo ECommerce App.</string>
+    <string name="home_appliances">Home Appliances</string>
+    <string name="_forget_password">Forget password?</string>
+    <string name="don_t_warry_we_just_to_need_your_register_email_address_and_done">Don\'t warry we just to need your register email address and done!</string>
+    <string name="email_id">Email Id</string>
+    <string name="recovery_email_sent_successfully_check_your_inbox">Recovery email sent successfully! check your inbox</string>
+    <string name="reset_password">Reset password</string>
 </resources>

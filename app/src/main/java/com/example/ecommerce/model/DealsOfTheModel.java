@@ -2,9 +2,9 @@ package com.example.ecommerce.model;
 
 public class DealsOfTheModel {
     private String name, type, price;
-    private String image;
+    private int image;
 
-    public DealsOfTheModel(String name, String type, String price, String image) {
+    public DealsOfTheModel(String name, String type, String price, int image) {
         this.name = name;
         this.type = type;
         this.price = price;
@@ -39,11 +39,11 @@ public class DealsOfTheModel {
         this.price = price;
     }
 
-    public String getImage() {
+    public int getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(int image) {
         this.image = image;
     }
 }

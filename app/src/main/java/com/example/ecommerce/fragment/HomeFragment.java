@@ -169,11 +169,17 @@ public class HomeFragment extends Fragment {
     public void setDataInDealsOfDay() {
         dealsOfTheModelArrayList = new ArrayList<>();
 
-        for (int i = 0; i < 5; i++) {
-            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",
-                    "https://image.shutterstock.com/image-vector/home-icon-260nw-153874403.jpg"));
+            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_mail));
+            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_person_outline_black_24dp));
+            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_close_black_24dp));
+            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_gift));
+            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_menu_camera));
+            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_shopping_cart_black_241dp));
+            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_menu_gallery));
+            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_menu_send));
+            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_order));
 
-        }
+
         dealsOfTheDay_recyclerView.setAdapter(new DealsOfTheDayAdapter(getActivity(), dealsOfTheModelArrayList));
 
     }

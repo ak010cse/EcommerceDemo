@@ -41,8 +41,9 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:paddingBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         app:cardCornerRadius="10dp">
 
         <LinearLayout
@@ -53,7 +54,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingTop="2dp"
+                android:paddingRight="2dp"
+                tools:ignore="RtlHardcoded,RtlSymmetry">
 
                 <TextView
                     android:id="@+id/deals_text"
@@ -71,12 +77,12 @@
                 <Button
                     android:id="@+id/viewAll_deals_button"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginRight="8dp"
                     android:background="@color/colorPrimary"
                     android:text="@string/view_all"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
