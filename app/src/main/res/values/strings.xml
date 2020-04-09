@@ -24,4 +24,11 @@
     <string name="todo">TODO</string>
     <string name="communicate">Communicate</string>
     <string name="my_orders">My orders</string>
+    <string name="hello_wish_list_fragment">Hello WhisList Fragment</string>
+    <string name="hello_my_account_fragment">Hello My Account Fragment</string>
+    <string name="hello_my_cart_fragment">Hello My Cart Fragment</string>
+    <string name="hello_order_fragment">Hello Order Fragment</string>
+    <string name="hello_reward_fragment">Hello Reward Fragment</string>
+    <string name="deals_of_the_day">Deals of the day!</string>
+    <string name="view_all">view all</string>
 </resources>

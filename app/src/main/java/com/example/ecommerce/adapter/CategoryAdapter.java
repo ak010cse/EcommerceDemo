@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.ecommerce.model.CategoryModel;
 import com.example.ecommerce.R;
 
@@ -38,7 +39,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        holder.categoryName.setText(categoryArrayList.get(position).getCategoryName());
+        Glide.with(activity).load(categoryArrayList.get(position).getCategoryIconUrl()).into(holder.categoryIcon);
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,6 +48,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                 Toast.makeText(activity, clicked, Toast.LENGTH_SHORT).show();
             }
         });
+        holder.categoryName.setText(categoryArrayList.get(position).getCategoryName());
 //        Glide.with(activity).load(categoryArrayList.get(position).getCategoryIconUrl()).into(holder.categoryIcon);
     }
 

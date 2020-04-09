@@ -11,7 +11,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 
 import android.view.MenuItem;
 
+import com.example.ecommerce.fragment.MyAccountFragment;
 import com.example.ecommerce.fragment.MyCartFragment;
+import com.example.ecommerce.fragment.MyWishListFragment;
 import com.example.ecommerce.fragment.OrderFragment;
 import com.example.ecommerce.fragment.RewardFragment;
 import com.google.android.material.navigation.NavigationView;
@@ -86,13 +88,13 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_search) {
-            Toast.makeText(this, "you clicked on search bar", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You clicked on search bar", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.action_cart) {
-            Toast.makeText(this, "you clicked on Add to cart", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You clicked on Add to cart", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.action_notification) {
-            Toast.makeText(this, "you clicked on notification", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You clicked on notification", Toast.LENGTH_SHORT).show();
             return true;
         }
 
@@ -105,25 +107,29 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_my_home) {
-            Toast.makeText(this, "you clicked on Home", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You clicked on Home", Toast.LENGTH_SHORT).show();
             setFragment(new HomeFragment());
         } else if (id == R.id.nav_my_order) {
-            Toast.makeText(this, "you clicked on My Orders", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You clicked on My Orders", Toast.LENGTH_SHORT).show();
             // Handle the camera action
             setFragment(new OrderFragment());
 
         } else if (id == R.id.nav_my_rewards) {
-            Toast.makeText(this, "you clicked on My Rewards", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You clicked on My Rewards", Toast.LENGTH_SHORT).show();
             setFragment(new RewardFragment());
         } else if (id == R.id.nav_my_cart) {
 
             setFragment(new MyCartFragment());
 
-            Toast.makeText(this, "you clicked on My Cart", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You clicked on My Cart", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_my_wishlist) {
-            Toast.makeText(this, "you clicked on My Wishlist", Toast.LENGTH_SHORT).show();
+            setFragment(new MyWishListFragment());
+
+            Toast.makeText(this, "You clicked on My Wishlist", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_my_account) {
-            Toast.makeText(this, "you clicked on My Account", Toast.LENGTH_SHORT).show();
+            setFragment(new MyAccountFragment());
+
+            Toast.makeText(this, "You clicked on My Account", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_signOut) {
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(MainActivity.this, RegisterActivity.class);

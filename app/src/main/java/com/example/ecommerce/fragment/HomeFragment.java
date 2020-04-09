@@ -13,11 +13,17 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.ecommerce.adapter.DealsOfTheDayAdapter;
 import com.example.ecommerce.adapter.SliderAdapter;
 import com.example.ecommerce.model.CategoryModel;
 import com.example.ecommerce.R;
 import com.example.ecommerce.adapter.CategoryAdapter;
+import com.example.ecommerce.model.DealsOfTheModel;
 import com.example.ecommerce.model.SliderModel;
 
 import java.util.ArrayList;
@@ -42,6 +48,10 @@ public class HomeFragment extends Fragment {
     final private long PERIOD_TIME = 3000;
 
     ///*****Banner slider******///
+    TextView deals_text;
+    Button viewAll_deals_button;
+    RecyclerView dealsOfTheDay_recyclerView;
+    private ArrayList<DealsOfTheModel> dealsOfTheModelArrayList;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -60,16 +70,16 @@ public class HomeFragment extends Fragment {
 
         List<CategoryModel> modelList = new ArrayList<CategoryModel>();
         modelList.add(new CategoryModel("https://image.shutterstock.com/image-vector/home-icon-260nw-153874403.jpg", "Home"));
-        modelList.add(new CategoryModel("https://image.shutterstock.com/image-vector/home-icon-260nw-153874403.jpg", "Electronics"));
-        modelList.add(new CategoryModel("https://image.shutterstock.com/image-vector/home-icon-260nw-153874403.jpg", "Books"));
-        modelList.add(new CategoryModel("https://image.shutterstock.com/image-vector/home-icon-260nw-153874403.jpg", "Shoes"));
-        modelList.add(new CategoryModel("https://image.shutterstock.com/image-vector/home-icon-260nw-153874403.jpg", "T-shirt"));
-        modelList.add(new CategoryModel("https://image.shutterstock.com/image-vector/home-icon-260nw-153874403.jpg", "Mobile"));
-        modelList.add(new CategoryModel("https://image.shutterstock.com/image-vector/home-icon-260nw-153874403.jpg", "Charger"));
-        modelList.add(new CategoryModel("https://image.shutterstock.com/image-vector/home-icon-260nw-153874403.jpg", "Power bank"));
-        modelList.add(new CategoryModel("https://image.shutterstock.com/image-vector/home-icon-260nw-153874403.jpg", "Headphone"));
-        modelList.add(new CategoryModel("https://image.shutterstock.com/image-vector/home-icon-260nw-153874403.jpg", "Mouse"));
-        modelList.add(new CategoryModel("https://image.shutterstock.com/image-vector/home-icon-260nw-153874403.jpg", "Sports"));
+        modelList.add(new CategoryModel("https://image.shutterstock.com/image-vector/circuit-tech-element-electronics-icon-600w-622200185.jpg", "Electronics"));
+        modelList.add(new CategoryModel("https://image.shutterstock.com/image-vector/vector-illustration-book-icon-isolated-600w-252563749.jpg", "Books"));
+        modelList.add(new CategoryModel("https://image.shutterstock.com/image-vector/single-sneaker-sport-shoe-icon-260nw-686003236.jpg", "Shoes"));
+        modelList.add(new CategoryModel("https://image.shutterstock.com/image-illustration/blank-white-clean-tshirt-mockup-600w-1488735947.jpg", "T-shirt"));
+        modelList.add(new CategoryModel("https://image.shutterstock.com/image-vector/mobile-phone-vector-icon-isolated-600w-1156131226.jpg", "Mobile"));
+        modelList.add(new CategoryModel("https://image.shutterstock.com/image-vector/charging-phone-icon-flat-style-600w-1521755333.jpg", "Charger"));
+        modelList.add(new CategoryModel("https://image.shutterstock.com/image-vector/power-bank-icon-simple-design-600w-1105162760.jpg", "Power bank"));
+        modelList.add(new CategoryModel("https://image.shutterstock.com/image-vector/black-headphone-vector-icon-illustration-600w-1578059326.jpg", "Headphone"));
+        modelList.add(new CategoryModel("https://image.shutterstock.com/image-vector/computer-mouse-icon-vector-600w-195740618.jpg", "Mouse"));
+        modelList.add(new CategoryModel("https://image.shutterstock.com/image-vector/soccer-ball-symbol-style-grunge-600w-293090687.jpg", "Sports"));
         categoryAdapter = new CategoryAdapter(getActivity(), modelList);
         category_recyclerView.setAdapter(categoryAdapter);
         categoryAdapter.notifyDataSetChanged();
@@ -140,7 +150,32 @@ public class HomeFragment extends Fragment {
         });
         ///*****Banner slider******///
 
+        deals_text = (TextView) view.findViewById(R.id.deals_text);
+        viewAll_deals_button = (Button) view.findViewById(R.id.viewAll_deals_button);
+        dealsOfTheDay_recyclerView = (RecyclerView) view.findViewById(R.id.dealsOfTheDay_recyclerView);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        dealsOfTheDay_recyclerView.setLayoutManager(layoutManager);
+        viewAll_deals_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "View All", Toast.LENGTH_SHORT).show();
+            }
+        });
+        setDataInDealsOfDay();
+
         return view;
+    }
+
+    public void setDataInDealsOfDay() {
+        dealsOfTheModelArrayList = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",
+                    "https://image.shutterstock.com/image-vector/home-icon-260nw-153874403.jpg"));
+
+        }
+        dealsOfTheDay_recyclerView.setAdapter(new DealsOfTheDayAdapter(getActivity(), dealsOfTheModelArrayList));
+
     }
 
     ///*****Banner slider******///
