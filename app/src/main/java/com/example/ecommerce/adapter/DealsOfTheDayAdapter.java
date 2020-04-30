@@ -1,10 +1,12 @@
 package com.example.ecommerce.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.ecommerce.R;
+import com.example.ecommerce.activity.ProductDetailsActivity;
 import com.example.ecommerce.model.DealsOfTheModel;
 
 import java.util.ArrayList;
@@ -41,6 +44,13 @@ public class DealsOfTheDayAdapter extends RecyclerView.Adapter<DealsOfTheDayAdap
 
         Glide.with(activity).load(dealsOfTheModels.get(position).getImage()).into(holder.deal_image);
 
+        holder.product_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(activity, ProductDetailsActivity.class);
+                activity.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -52,6 +62,7 @@ public class DealsOfTheDayAdapter extends RecyclerView.Adapter<DealsOfTheDayAdap
 
         ImageView deal_image;
         TextView deal_name,deal_type,deal_price;
+        LinearLayout product_layout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -59,6 +70,7 @@ public class DealsOfTheDayAdapter extends RecyclerView.Adapter<DealsOfTheDayAdap
             deal_name=(TextView)itemView.findViewById(R.id.deal_name);
             deal_type=(TextView)itemView.findViewById(R.id.deal_type);
             deal_price=(TextView)itemView.findViewById(R.id.deal_price);
+            product_layout=(LinearLayout) itemView.findViewById(R.id.product_layout);
         }
     }
 }

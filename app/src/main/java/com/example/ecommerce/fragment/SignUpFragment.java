@@ -3,7 +3,6 @@ package com.example.ecommerce.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,9 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ecommerce.helper.Utils;
 import com.example.ecommerce.activity.MainActivity;
 import com.example.ecommerce.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -48,7 +45,7 @@ public class SignUpFragment extends Fragment {
     private FrameLayout parentFrameLayout;
     private ProgressBar progressBar;
     private Button signUp;
-    private EditText email, name, password, confirm_password;
+    private EditText email_editText, name_editText, password_editText, confirm_password_editText;
     private ImageButton close;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
@@ -68,10 +65,10 @@ public class SignUpFragment extends Fragment {
         alreadyAccount = (TextView) view.findViewById(R.id.already_account_textView);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         signUp = (Button) view.findViewById(R.id.signUp);
-        name = (EditText) view.findViewById(R.id.name);
-        email = (EditText) view.findViewById(R.id.email);
-        password = (EditText) view.findViewById(R.id.password);
-        confirm_password = (EditText) view.findViewById(R.id.confirm_password);
+        name_editText = (EditText) view.findViewById(R.id.name);
+        email_editText = (EditText) view.findViewById(R.id.email);
+        password_editText = (EditText) view.findViewById(R.id.password);
+        confirm_password_editText = (EditText) view.findViewById(R.id.confirm_password);
         close = (ImageButton) view.findViewById(R.id.close);
         parentFrameLayout = getActivity().findViewById(R.id.frameLayout);
 
@@ -85,83 +82,105 @@ public class SignUpFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        name.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                checkInputs();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        email.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                checkInputs();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        password.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                checkInputs();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        confirm_password.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                checkInputs();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-//                progressBar.setVisibility(View.VISIBLE);
-                checkEmailAndPassword();
+            public void onClick(View view) {
+
+                if (Utils.isOnline(getActivity())) {
+
+                    String fname = name_editText.getText().toString().trim();
+                    String email = email_editText.getText().toString().trim();
+
+                    if (fname.isEmpty()) {
+                        Toast.makeText(getActivity(), "please enter name !", Toast.LENGTH_SHORT).show();
+                        name_editText.requestFocus();
+                        return;
+                    }
+
+
+                    if (email.isEmpty()) {
+                        Toast.makeText(getActivity(), "please enter email !", Toast.LENGTH_SHORT).show();
+                        email_editText.requestFocus();
+                        return;
+                    }
+                    if (!email.matches(emailPattern)) {
+                        Toast.makeText(getActivity(), "Invalid email address !", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    String pass = password_editText.getText().toString().trim();
+                    String cpass = confirm_password_editText.getText().toString().trim();
+
+
+                    if (pass.isEmpty()) {
+                        Toast.makeText(getActivity(), "please enter password !", Toast.LENGTH_SHORT).show();
+                        password_editText.requestFocus();
+                        return;
+                    }
+                    if (pass.length() < 6) {
+                        Toast.makeText(getActivity(), "your password is less than 6 character !", Toast.LENGTH_SHORT).show();
+                        password_editText.requestFocus();
+                        return;
+                    }
+                    if (!cpass.equals(pass)) {
+                        Toast.makeText(getActivity(), "Password Not matching !", Toast.LENGTH_SHORT).show();
+                        password_editText.requestFocus();
+
+                    }else {
+                        progressBar.setVisibility(View.VISIBLE);
+
+                        firebaseAuth.createUserWithEmailAndPassword(email_editText.getText().toString(), password_editText.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                                if (task.isSuccessful()) {
+                                    progressBar.setVisibility(View.INVISIBLE);
+
+                                    HashMap<Object,String>userData=new HashMap<>();
+                                    userData.put("fullName",name_editText.getText().toString());
+                                    userData.put("email",email_editText.getText().toString());
+
+                                    firebaseFirestore.collection("USERS")
+                                            .add(userData)
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentReference> task) {
+
+                                                    if (task.isSuccessful()){
+                                                        progressBar.setVisibility(View.INVISIBLE);
+
+                                                        String data = task.toString();
+                                                        Log.e("data",data);
+                                                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                                                        startActivity(intent);
+                                                        getActivity().finish();
+                                                    }else {
+                                                        progressBar.setVisibility(View.INVISIBLE);
+                                                        String error=task.getException().getMessage();
+                                                        Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+                                                        Log.e( "onComplete: ",error );
+                                                    }
+                                                }
+                                            });
+
+
+
+                                } else {
+                                    progressBar.setVisibility(View.INVISIBLE);
+
+                                    String error = task.getException().getMessage();
+                                    Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+                                    Log.e("error", error);
+                                }
+
+                            }
+                        });
+                    }
+
+                } else {
+                    Toast.makeText(getActivity(), " Please check your internet !", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -174,33 +193,6 @@ public class SignUpFragment extends Fragment {
     }
 
     @SuppressLint("ResourceAsColor")
-    private void checkInputs() {
-        if (!TextUtils.isEmpty(name.getText().toString())) {
-
-            if (!TextUtils.isEmpty(email.getText().toString())) {
-
-                if (!TextUtils.isEmpty(password.getText().toString()) && password.length() >= 6) {
-
-                    if (!TextUtils.isEmpty(confirm_password.getText().toString())) {
-                        signUp.setEnabled(true);
-                        signUp.setTextColor(R.color.black);
-                    } else {
-                        signUp.setEnabled(false);
-                        signUp.setTextColor(Color.argb(50, 255, 255, 255));
-                    }
-                } else {
-                    signUp.setEnabled(false);
-                    signUp.setTextColor(Color.argb(50, 255, 255, 255));
-                }
-            } else {
-                signUp.setEnabled(false);
-                signUp.setTextColor(Color.argb(50, 255, 255, 255));
-            }
-        } else {
-            signUp.setEnabled(false);
-            signUp.setTextColor(Color.argb(50, 255, 255, 255));
-        }
-    }
 
     private void setFragment(Fragment fragment) {
 
@@ -210,67 +202,4 @@ public class SignUpFragment extends Fragment {
         transaction.commit();
     }
 
-    private void checkEmailAndPassword() {
-
-        if (email.getText().toString().matches(emailPattern)) {
-            if (password.getText().toString().equals(confirm_password.getText().toString())) {
-                progressBar.setVisibility(View.VISIBLE);
-                signUp.setEnabled(false);
-                signUp.setTextColor(Color.argb(50, 255, 255, 255));
-
-                firebaseAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                        if (task.isSuccessful()) {
-
-                            HashMap<Object,String>userData=new HashMap<>();
-                            userData.put("fullName",name.getText().toString());
-                            userData.put("email",email.getText().toString());
-
-                            firebaseFirestore.collection("USERS")
-                                    .add(userData)
-                                    .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentReference> task) {
-
-                                            if (task.isSuccessful()){
-                                                Intent intent = new Intent(getActivity(), MainActivity.class);
-                                                startActivity(intent);
-                                                getActivity().finish();
-                                            }else {
-                                                progressBar.setVisibility(View.INVISIBLE);
-                                                signUp.setEnabled(true);
-                                                signUp.setTextColor(Color.argb(50, 255, 255, 255));
-                                                String error=task.getException().getMessage();
-                                                Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
-                                                Log.e( "onComplete: ",error );
-                                            }
-                                        }
-                                    });
-
-
-
-                        } else {
-                            progressBar.setVisibility(View.INVISIBLE);
-                            signUp.setEnabled(true);
-                            signUp.setTextColor(Color.argb(50, 255, 255, 255));
-                            String error = task.getException().getMessage();
-                            Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
-                            Log.e("error", error);
-                        }
-
-                    }
-                });
-            } else {
-                confirm_password.setError("Password doesn't matched!");
-                confirm_password.requestFocus();
-                progressBar.setVisibility(View.INVISIBLE);
-            }
-        } else {
-            email.setError("Invalid Email!");
-            email.requestFocus();
-        }
-
-    }
 }

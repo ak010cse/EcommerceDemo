@@ -2,34 +2,31 @@ package com.example.ecommerce.fragment;
 
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.ecommerce.adapter.DealsOfTheDayAdapter;
-import com.example.ecommerce.adapter.SliderAdapter;
-import com.example.ecommerce.model.CategoryModel;
 import com.example.ecommerce.R;
 import com.example.ecommerce.adapter.CategoryAdapter;
+import com.example.ecommerce.adapter.DealsOfTheDayAdapter;
+import com.example.ecommerce.adapter.SliderAdapter;
+import com.example.ecommerce.adapter.TrendingProductAdapter;
+import com.example.ecommerce.model.CategoryModel;
 import com.example.ecommerce.model.DealsOfTheModel;
 import com.example.ecommerce.model.SliderModel;
+import com.smarteist.autoimageslider.SliderView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 /**
@@ -41,17 +38,13 @@ public class HomeFragment extends Fragment {
 
     ///*****Banner slider******///
     private ViewPager viewPager;
-    List<SliderModel> sliderModelList;
-    private int currentPage = 2;
-    private Timer timer;
-    final private long DELAY_TIME = 3000;
-    final private long PERIOD_TIME = 3000;
-
+    ArrayList<SliderModel> sliderModelList;
     ///*****Banner slider******///
-    TextView deals_text;
-    Button viewAll_deals_button;
-    RecyclerView dealsOfTheDay_recyclerView;
+    TextView deals_text, trending_text;
+    Button viewAll_deals_button, viewAll_button;
+    RecyclerView dealsOfTheDay_recyclerView, trending_recyclerView;
     private ArrayList<DealsOfTheModel> dealsOfTheModelArrayList;
+    SliderView imageSlider;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -85,75 +78,32 @@ public class HomeFragment extends Fragment {
         categoryAdapter.notifyDataSetChanged();
 
         ///*****Banner slider******///
+        viewPager = (ViewPager) view.findViewById(R.id.banner_slide_view_pager);
+        imageSlider = (SliderView) view.findViewById(R.id.imageSlider);
 
         sliderModelList = new ArrayList<SliderModel>();
 
-        sliderModelList.add(new SliderModel(R.drawable.ic_shopping_cart_black_241dp));
-        sliderModelList.add(new SliderModel(R.drawable.ic_wishlist));
+        sliderModelList.add(new SliderModel("https://i.pcmag.com/imagery/reviews/0021S2Fa8eGumFir6rueMCH-22..v_1574731296.jpg"));
+        sliderModelList.add(new SliderModel("https://www.anysoftwaretools.com/wp-content/uploads/iphone-powerbank-1.png"));
+        sliderModelList.add(new SliderModel("https://i.ytimg.com/vi/xFe_ZYtfsZg/maxresdefault.jpg"));
+        sliderModelList.add(new SliderModel("https://images-na.ssl-images-amazon.com/images/I/61oVUtl66XL._AC_SY445_.jpg"));
+        sliderModelList.add(new SliderModel("https://www.anysoftwaretools.com/wp-content/uploads/iphone-powerbank-1.png"));
 
-        sliderModelList.add(new SliderModel(R.drawable.ic_mailsent));
-        sliderModelList.add(new SliderModel(R.drawable.ic_mail));
-        sliderModelList.add(new SliderModel(R.drawable.forget_img));
-        sliderModelList.add(new SliderModel(R.drawable.ic_menu_gallery));
-        sliderModelList.add(new SliderModel(R.drawable.ic_menu_slideshow));
-        sliderModelList.add(new SliderModel(R.drawable.ic_menu_manage));
+        sliderModelList.add(new SliderModel("https://images-na.ssl-images-amazon.com/images/I/61oVUtl66XL._AC_SY445_.jpg"));
+        sliderModelList.add(new SliderModel("https://i.ytimg.com/vi/xFe_ZYtfsZg/maxresdefault.jpg"));
+        sliderModelList.add(new SliderModel("https://i.pcmag.com/imagery/reviews/0021S2Fa8eGumFir6rueMCH-22..v_1574731296.jpg"));
+        sliderModelList.add(new SliderModel("https://www.anysoftwaretools.com/wp-content/uploads/iphone-powerbank-1.png"));
 
-        sliderModelList.add(new SliderModel(R.drawable.ic_person_outline_black_24dp));
-        sliderModelList.add(new SliderModel(R.drawable.ic_menu_camera));
-        sliderModelList.add(new SliderModel(R.drawable.ic_shopping_cart_black_241dp));
-        sliderModelList.add(new SliderModel(R.drawable.ic_gift));
 
-        sliderModelList.add(new SliderModel(R.drawable.ic_mailsent));
-        sliderModelList.add(new SliderModel(R.drawable.ic_mail));
+        SliderAdapter sliderAdapter = new SliderAdapter(sliderModelList, getActivity());
+        imageSlider.setSliderAdapter(sliderAdapter);
+        imageSlider.setClipToPadding(false);
 
-        viewPager = (ViewPager) view.findViewById(R.id.banner_slide_view_pager);
-        SliderAdapter sliderAdapter = new SliderAdapter(sliderModelList);
-        viewPager.setAdapter(sliderAdapter);
-        viewPager.setClipToPadding(false);
-        viewPager.setPageMargin(20);
-
-        ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                currentPage = position;
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-                if (state == ViewPager.SCROLL_STATE_IDLE) {
-                    pageLooper();
-
-                }
-            }
-        };
-
-        viewPager.addOnPageChangeListener(onPageChangeListener);
-
-        startBannerSlideShow();
-
-        viewPager.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                pageLooper();
-                stopBannerSlideShow();
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    startBannerSlideShow();
-                }
-                return false;
-            }
-        });
-        ///*****Banner slider******///
 
         deals_text = (TextView) view.findViewById(R.id.deals_text);
         viewAll_deals_button = (Button) view.findViewById(R.id.viewAll_deals_button);
         dealsOfTheDay_recyclerView = (RecyclerView) view.findViewById(R.id.dealsOfTheDay_recyclerView);
-        LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         dealsOfTheDay_recyclerView.setLayoutManager(layoutManager);
         viewAll_deals_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,7 +111,24 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(), "View All", Toast.LENGTH_SHORT).show();
             }
         });
+
+        //**** trending product ****//
+        trending_text = (TextView) view.findViewById(R.id.trending_text);
+        viewAll_button = (Button) view.findViewById(R.id.viewAll_button);
+        trending_recyclerView = (RecyclerView) view.findViewById(R.id.trending_recyclerView);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
+
+        trending_recyclerView.setLayoutManager(manager);
+        viewAll_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "View All", Toast.LENGTH_SHORT).show();
+            }
+        });
         setDataInDealsOfDay();
+        setTrendingData();
+        //**** trending product ****//
+
 
         return view;
     }
@@ -169,60 +136,49 @@ public class HomeFragment extends Fragment {
     public void setDataInDealsOfDay() {
         dealsOfTheModelArrayList = new ArrayList<>();
 
-            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_mail));
-            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_person_outline_black_24dp));
-            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_close_black_24dp));
-            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_gift));
-            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_menu_camera));
-            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_shopping_cart_black_241dp));
-            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_menu_gallery));
-            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_menu_send));
-            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_order));
+        dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000", "https://static.toiimg.com/thumb/msid-63393835,width-220,resizemode-4,imgv-0/Vivo-Apex.jpg"));
+        dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000", "https://static.toiimg.com/thumb/msid-63393835,width-220,resizemode-4,imgv-0/Vivo-Apex.jpg"));
+        dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000", "https://static.toiimg.com/thumb/msid-63393835,width-220,resizemode-4,imgv-0/Vivo-Apex.jpg"));
+        dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000", "https://static.toiimg.com/thumb/msid-63393835,width-220,resizemode-4,imgv-0/Vivo-Apex.jpg"));
+        dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000", "https://static.toiimg.com/thumb/msid-63393835,width-220,resizemode-4,imgv-0/Vivo-Apex.jpg"));
+        dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000", "https://static.toiimg.com/thumb/msid-63393835,width-220,resizemode-4,imgv-0/Vivo-Apex.jpg"));
+        dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000", "https://static.toiimg.com/thumb/msid-63393835,width-220,resizemode-4,imgv-0/Vivo-Apex.jpg"));
+        dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000", "https://static.toiimg.com/thumb/msid-63393835,width-220,resizemode-4,imgv-0/Vivo-Apex.jpg"));
+//        dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000","https://i.ytimg.com/vi/xFe_ZYtfsZg/maxresdefault.jpg"));
+//        dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000","https://i.pcmag.com/imagery/reviews/0021S2Fa8eGumFir6rueMCH-22..v_1574731296.jpg"));
+//            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_menu_camera));
+//            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_shopping_cart_black_241dp));
+//            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_menu_gallery));
+//            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_menu_send));
+//            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_order));
 
 
         dealsOfTheDay_recyclerView.setAdapter(new DealsOfTheDayAdapter(getActivity(), dealsOfTheModelArrayList));
 
     }
+    public void setTrendingData() {
+        dealsOfTheModelArrayList = new ArrayList<>();
 
-    ///*****Banner slider******///
-    private void pageLooper() {
-        if (currentPage == sliderModelList.size() - 2) {
-            currentPage = 2;
-            viewPager.setCurrentItem(currentPage, false);
+        dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000", "https://static.toiimg.com/thumb/msid-63393835,width-220,resizemode-4,imgv-0/Vivo-Apex.jpg"));
+        dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000", "https://static.toiimg.com/thumb/msid-63393835,width-220,resizemode-4,imgv-0/Vivo-Apex.jpg"));
+        dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000", "https://static.toiimg.com/thumb/msid-63393835,width-220,resizemode-4,imgv-0/Vivo-Apex.jpg"));
+        dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000", "https://static.toiimg.com/thumb/msid-63393835,width-220,resizemode-4,imgv-0/Vivo-Apex.jpg"));
+//        dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000", "https://static.toiimg.com/thumb/msid-63393835,width-220,resizemode-4,imgv-0/Vivo-Apex.jpg"));
+//        dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000", "https://static.toiimg.com/thumb/msid-63393835,width-220,resizemode-4,imgv-0/Vivo-Apex.jpg"));
+//        dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000", "https://static.toiimg.com/thumb/msid-63393835,width-220,resizemode-4,imgv-0/Vivo-Apex.jpg"));
+//        dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000", "https://static.toiimg.com/thumb/msid-63393835,width-220,resizemode-4,imgv-0/Vivo-Apex.jpg"));
+//        dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000","https://i.ytimg.com/vi/xFe_ZYtfsZg/maxresdefault.jpg"));
+//        dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000","https://i.pcmag.com/imagery/reviews/0021S2Fa8eGumFir6rueMCH-22..v_1574731296.jpg"));
+//            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_menu_camera));
+//            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_shopping_cart_black_241dp));
+//            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_menu_gallery));
+//            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_menu_send));
+//            dealsOfTheModelArrayList.add(new DealsOfTheModel("SamSung", "J2 PRO", "6000",R.drawable.ic_order));
 
-        }
-        if (currentPage == 1) {
-            currentPage = sliderModelList.size() - 3;
-            viewPager.setCurrentItem(currentPage, false);
+        trending_recyclerView.setAdapter(new TrendingProductAdapter(getActivity(), dealsOfTheModelArrayList));
 
-        }
     }
 
-    private void startBannerSlideShow() {
-        final Handler handler = new Handler();
-        final Runnable update = new Runnable() {
-            @Override
-            public void run() {
 
-                if (currentPage >= sliderModelList.size()) {
-                    currentPage = 1;
-                }
-                viewPager.setCurrentItem(currentPage++, true);
-            }
-        };
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(update);
-            }
-        }, DELAY_TIME, PERIOD_TIME);
-    }
-
-    private void stopBannerSlideShow() {
-        timer.cancel();
-    }
-
-    ///*****Banner slider******///
 
 }

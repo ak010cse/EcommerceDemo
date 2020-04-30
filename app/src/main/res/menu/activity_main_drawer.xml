@@ -7,7 +7,7 @@
         <item
             android:id="@+id/nav_my_home"
             android:icon="@drawable/forget_img"
-            android:title="Home" />
+            android:title="@string/home" />
         <item
             android:id="@+id/nav_my_order"
             android:icon="@drawable/ic_order"
@@ -15,24 +15,24 @@
         <item
             android:id="@+id/nav_my_rewards"
             android:icon="@drawable/ic_gift"
-            android:title="My Rewards" />
+            android:title="@string/my_rewards" />
         <item
             android:id="@+id/nav_my_cart"
             android:icon="@drawable/ic_shopping_cart_black_241dp"
-            android:title="My Cart" />
+            android:title="@string/my_cart" />
         <item
             android:id="@+id/nav_my_wishlist"
-            android:icon="@drawable/ic_wishlist"
-            android:title="My Wishlist" />
+            android:icon="@drawable/ic_heart"
+            android:title="@string/my_wishlist" />
 
         <item
             android:id="@+id/nav_my_account"
             android:icon="@drawable/ic_person_outline_black_24dp"
-            android:title="My Account" />
+            android:title="@string/my_account" />
     </group>
 
     <item
         android:id="@+id/nav_signOut"
         android:icon="@drawable/ic_logout_24dp"
-        android:title="Sign Out" />
+        android:title="@string/sign_out" />
 </menu>

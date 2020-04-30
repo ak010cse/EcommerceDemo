@@ -11,12 +11,36 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.ProductDetailsActivity"></activity>
+        <activity
+            android:name=".activity.OrderActivity"
+            android:theme="@style/RedProgress" />
+        <activity
+            android:name=".activity.MyWishListActivity"
+            android:theme="@style/RedProgress" />
+        <activity
+            android:name=".activity.MyCartActivity"
+            android:theme="@style/RedProgress" />
+        <activity
+            android:name=".activity.MyAccountActivity"
+            android:theme="@style/RedProgress" />
+        <activity
+            android:name=".activity.CategoryActivity"
+            android:theme="@style/RedProgress" />
+        <activity
+            android:name=".activity.RewardActivity"
+            android:theme="@style/blue_theme" />
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".activity.RegisterActivity" />
-        <activity android:name=".activity.SplashActivity">
+            android:theme="@style/RedProgress"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:theme="@style/RedProgress" />
+        <activity
+            android:name=".activity.SplashActivity"
+            android:theme="@style/RedProgress">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

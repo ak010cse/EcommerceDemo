@@ -1,19 +1,8 @@
 package com.example.ecommerce.fragment;
 
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +14,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ecommerce.activity.MainActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.ecommerce.R;
+import com.example.ecommerce.helper.Utils;
+import com.example.ecommerce.activity.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -42,7 +37,7 @@ public class SignInFragment extends Fragment {
     private View view;
     private TextView not_account_textView, forget_password;
     private Button signIn;
-    private EditText email, password;
+    private EditText email_editText, password_editText;
     private FrameLayout parentFrameLayout;
     private ProgressBar progressBar;
     private FirebaseAuth firebaseAuth;
@@ -60,8 +55,8 @@ public class SignInFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_sign_in, container, false);
         not_account_textView = (TextView) view.findViewById(R.id.not_account_textView);
         forget_password = (TextView) view.findViewById(R.id.forget_password);
-        email = (EditText) view.findViewById(R.id.email);
-        password = (EditText) view.findViewById(R.id.password);
+        email_editText = (EditText) view.findViewById(R.id.email);
+        password_editText = (EditText) view.findViewById(R.id.password);
         signIn = (Button) view.findViewById(R.id.signIn);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         parentFrameLayout = (FrameLayout) getActivity().findViewById(R.id.frameLayout);
@@ -80,46 +75,63 @@ public class SignInFragment extends Fragment {
             }
         });
 
-        email.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                checkInputs();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        password.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                checkInputs();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
 
-                checkEmailandPassword();
+                if (Utils.isOnline(getActivity())) {
+
+                    String email = email_editText.getText().toString().trim();
+                    String pass = password_editText.getText().toString().trim();
+                    if (email.isEmpty()) {
+                        Toast.makeText(getActivity(), "please enter email !", Toast.LENGTH_SHORT).show();
+                        email_editText.requestFocus();
+                        return;
+                    }
+                    if (!email.matches(emailPattern)) {
+                        Toast.makeText(getActivity(), "Invalid email address !", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (pass.isEmpty()) {
+                        Toast.makeText(getActivity(), "please enter password !", Toast.LENGTH_SHORT).show();
+                        password_editText.requestFocus();
+
+                    } else if (pass.length() < 6) {
+                        Toast.makeText(getActivity(), "your password is less than 6 character !", Toast.LENGTH_SHORT).show();
+                        password_editText.requestFocus();
+                    } else {
+                        progressBar.setVisibility(View.VISIBLE);
+
+                        firebaseAuth.signInWithEmailAndPassword(email_editText.getText().toString(), password_editText.getText().toString())
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        progressBar.setVisibility(View.INVISIBLE);
+
+                                        if (task.isSuccessful()) {
+                                            String data = task.toString();
+                                            Log.e("data_reg", data);
+
+                                            Intent intent = new Intent(getActivity(), MainActivity.class);
+                                            startActivity(intent);
+                                            getActivity().finish();
+                                        } else {
+                                            progressBar.setVisibility(View.INVISIBLE);
+                                            String error = task.getException().getMessage();
+                                            Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+                                            Log.e("onComplete: ", error);
+                                        }
+
+                                    }
+                                });
+                    }
+                } else {
+                    Toast.makeText(getActivity(), " Please check your internet ", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
+
         forget_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,59 +140,6 @@ public class SignInFragment extends Fragment {
             }
         });
 
-    }
-
-    private void checkEmailandPassword() {
-        if (email.getText().toString().matches(emailPattern)) {
-            if (password.getText().toString().length() >= 6) {
-                progressBar.setVisibility(View.VISIBLE);
-                signIn.setEnabled(false);
-                signIn.setTextColor(Color.argb(50, 255, 255, 255));
-
-                firebaseAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-
-                                if (task.isSuccessful()) {
-                                    Intent intent = new Intent(getActivity(), MainActivity.class);
-                                    startActivity(intent);
-                                    getActivity().finish();
-                                } else {
-                                    progressBar.setVisibility(View.INVISIBLE);
-                                    signIn.setEnabled(true);
-                                    signIn.setTextColor(Color.argb(50, 255, 255, 255));
-                                    String error = task.getException().getMessage();
-                                    Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
-                                    Log.e("onComplete: ", error);
-                                }
-
-                            }
-                        });
-            } else {
-                Toast.makeText(getActivity(), "Incorrect email and password!", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Toast.makeText(getActivity(), "Incorrect email and password!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @SuppressLint("ResourceAsColor")
-    private void checkInputs() {
-        if (!TextUtils.isEmpty(email.getText().toString())) {
-
-            if (!TextUtils.isEmpty(password.getText().toString())) {
-
-                signIn.setEnabled(true);
-                signIn.setTextColor(R.color.black);
-            } else {
-                signIn.setEnabled(false);
-                signIn.setTextColor(Color.argb(50, 255, 255, 255));
-            }
-        } else {
-            signIn.setEnabled(false);
-            signIn.setTextColor(Color.argb(50, 255, 255, 255));
-        }
     }
 
     private void setFragment(Fragment fragment) {

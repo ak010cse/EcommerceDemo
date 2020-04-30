@@ -1,6 +1,7 @@
 package com.example.ecommerce.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.ecommerce.activity.CategoryActivity;
 import com.example.ecommerce.model.CategoryModel;
 import com.example.ecommerce.R;
 
@@ -44,8 +46,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 String clicked = categoryArrayList.get(position).getCategoryName();
-
                 Toast.makeText(activity, clicked, Toast.LENGTH_SHORT).show();
+
+                if (position != 0){
+                    Intent intent=new Intent(activity, CategoryActivity.class);
+                    intent.putExtra("productName",clicked);
+                    activity.startActivity(intent);
+                }
+
             }
         });
         holder.categoryName.setText(categoryArrayList.get(position).getCategoryName());

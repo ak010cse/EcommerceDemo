@@ -1,15 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.MyCartFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/myCart_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/hello_my_cart_fragment" />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_above="@+id/bottom"/>
 
-</FrameLayout>
+    <LinearLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:elevation="@dimen/_8sdp"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:id="@+id/add_to_cart_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/_16sdp"
+            android:background="@color/white"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/total_cart_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rs. 49999/- "
+                android:drawableTint="#485f70"
+                android:gravity="center"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Amount "
+                android:drawableTint="@color/black"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="#485f70"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/cart_continue_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorRed"
+            android:textColor="@color/white"
+            android:text="Continue"
+            android:elevation="@dimen/_8sdp"
+            android:textSize="@dimen/_14sdp"
+            android:layout_margin="@dimen/_5sdp"
+            android:stateListAnimator="@null"
+            android:textStyle="bold"
+            android:layout_weight="1" />
+    </LinearLayout>
+</RelativeLayout>

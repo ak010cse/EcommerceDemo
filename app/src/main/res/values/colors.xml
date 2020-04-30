@@ -7,4 +7,11 @@
     <color name="colorRed">#F80606</color>
     <color name="colorGreen">#438D08</color>
     <color name="white">#ffffff</color>
+    <color name="red">#ce0000</color>
+    <color name="grey">#A9A9A9</color>
+    <color name="purple">#710599</color>
+    <color name="dark_pink">#c4046f</color>
+    <color name="blue">#3905b5</color>
+    <color name="blue_toolbar">#5b04b1</color>
+    <color name="d6">#d6d6d6</color>
 </resources>
